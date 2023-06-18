@@ -14,3 +14,7 @@ touch .flaskenv
 touch breadboss.py
 touch config.py
 touch app/models.py
+flask db init
+flask db migrate -m"initial table setup"
+flask db upgrade
+touch seeds.py
