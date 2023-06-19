@@ -13,6 +13,16 @@ class Supplier(db.Model):
     def __repr__(self):
         return "<Supplier {}>".format(self.name)
 
+    def __json__(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "contact_first_name": self.contact_first_name,
+            "contact_last_name": self.contact_last_name,
+            "telephone_number": self.telephone_number,
+            "email_address": self.email_address,
+        }
+
 
 class RawMaterialType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +47,16 @@ class RawMaterial(db.Model):
     def __repr__(self):
         return "<Raw Material {}>".format(self.name)
 
+    def __json__(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "pack_size": self.pack_size,
+            "price": self.price,
+            "type": RawMaterialType.query.get(self.raw_material_type_id).name,
+            "supplier": Supplier.query.get(self.supplier_id).__json__(),
+        }
+
 
 class RecipeType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -56,6 +76,19 @@ class Recipe(db.Model):
 
     def __repr__(self):
         return "<Recipe {}>".format(self.name)
+
+    def __json__(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "imageUrl": self.image_url,
+            "type": RecipeType.query.get(self.recipe_type_id).name,
+            "ingredients": [ingredient.__json__() for ingredient in self.ingredients],
+        }
+
+    @staticmethod
+    def get_recipes():
+        return db.session.query(Recipe).all()
 
 
 class IngredientCategory(db.Model):
@@ -80,3 +113,11 @@ class Ingredient(db.Model):
 
     def __repr__(self):
         return "<Ingredient {}>".format(self.id)
+
+    def __json__(self):
+        return {
+            "id": self.id,
+            "category": IngredientCategory.query.get(self.ingredient_category_id).name,
+            "quantity": self.quantity,
+            "rawMaterial": RawMaterial.query.get(self.raw_material_id).__json__(),
+        }
