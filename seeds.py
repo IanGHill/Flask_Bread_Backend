@@ -65,7 +65,7 @@ with app.app_context():
     other = RawMaterialType(name="Other")
     salt = RawMaterialType(name="Salt")
     yeast = RawMaterialType(name="Yeast")
-    starter = RawMaterialType(name="Sourdough Starter")
+    starter = RawMaterialType(name="Starter")
 
     db.session.add(flour)
     db.session.add(liquid)

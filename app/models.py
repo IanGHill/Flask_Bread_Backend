@@ -51,7 +51,7 @@ class RawMaterial(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "pack_size": self.pack_size,
+            "packSize": self.pack_size,
             "price": self.price,
             "type": RawMaterialType.query.get(self.raw_material_type_id).name,
             "supplier": Supplier.query.get(self.supplier_id).__json__(),
@@ -85,10 +85,6 @@ class Recipe(db.Model):
             "type": RecipeType.query.get(self.recipe_type_id).name,
             "ingredients": [ingredient.__json__() for ingredient in self.ingredients],
         }
-
-    @staticmethod
-    def get_recipes():
-        return db.session.query(Recipe).all()
 
 
 class IngredientCategory(db.Model):

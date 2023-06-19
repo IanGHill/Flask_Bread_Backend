@@ -7,6 +7,7 @@ pip3 install Flask
 pip3 install python-dotenv
 pip3 install flask-sqlalchemy
 pip3 install flask-migrate
+pip3 install flask-cors
 mkdir app
 touch app/__init__.py
 touch app/routes.py
